@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header('Register')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container py-5 my-auto">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Create Your Account</h2>
+        <p class="text-muted">Select your affiliation with Khulna University of Engineering & Technology</p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <div class="col-md-5">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center hover-shadow">
+                <div class="card-body">
+                    <div class="text-primary mb-3"><i class="bi bi-backpack4 fs-1"></i></div>
+                    <h4 class="card-title fw-bold">Current Student</h4>
+                    <p class="card-text text-muted mb-4">
+                        Register using your KUET student roll and institutional or personal email.
+                    </p>
+                    <a th:href="@{/register/student}" class="btn btn-primary w-100 py-2 rounded-3 fw-semibold">Register as Student</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center hover-shadow">
+                <div class="card-body">
+                    <div class="text-success mb-3"><i class="bi bi-mortarboard fs-1"></i></div>
+                    <h4 class="card-title fw-bold">KUET Alumni</h4>
+                    <p class="card-text text-muted mb-4">
+                        Register with your graduation details, build your network profile, and apply for verification.
+                    </p>
+                    <a th:href="@{/register/alumni}" class="btn btn-success w-100 py-2 rounded-3 fw-semibold">Register as Alumni</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <p class="text-muted">Already have an account? <a th:href="@{/login}" class="text-primary fw-semibold">Sign in here</a></p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

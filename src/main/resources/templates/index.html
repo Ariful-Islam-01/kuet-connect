@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: header('Home')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container py-5">
+    <div class="p-5 mb-4 bg-white rounded-4 shadow-sm border text-center">
+        <h1 class="display-5 fw-bold text-primary mb-3">Welcome to KUET Connect</h1>
+        <p class="lead text-secondary mb-4">
+            The unified platform connecting Students, Alumni, and Administration of Khulna University of Engineering & Technology.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3">
+            <a th:href="@{/alumni/directory}" class="btn btn-kuet btn-lg px-4 shadow-sm">
+                <i class="bi bi-search me-2"></i>Browse Alumni Directory
+            </a>
+            <span sec:authorize="!isAuthenticated()">
+                <a th:href="@{/register}" class="btn btn-outline-primary btn-lg px-4 shadow-sm">
+                    <i class="bi bi-person-plus me-2"></i>Join the Network
+                </a>
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 text-center">
+                    <div class="text-primary mb-3"><i class="bi bi-person-badge fs-1"></i></div>
+                    <h5 class="card-title fw-bold">Current Students</h5>
+                    <p class="card-text text-muted">
+                        Create an account with your KUET Roll/Student ID to explore alumni profiles, discover career trajectories, and seek guidance.
+                    </p>
+                    <a th:href="@{/register/student}" class="btn btn-outline-primary btn-sm rounded-pill" sec:authorize="!isAuthenticated()">Register as Student</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 text-center">
+                    <div class="text-success mb-3"><i class="bi bi-mortarboard fs-1"></i></div>
+                    <h5 class="card-title fw-bold">KUET Alumni</h5>
+                    <p class="card-text text-muted">
+                        Stay connected with your alma mater, share professional milestones, build your profile, and receive official identity verification.
+                    </p>
+                    <a th:href="@{/register/alumni}" class="btn btn-outline-success btn-sm rounded-pill" sec:authorize="!isAuthenticated()">Register as Alumni</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 text-center">
+                    <div class="text-info mb-3"><i class="bi bi-compass fs-1"></i></div>
+                    <h5 class="card-title fw-bold">Guest Access</h5>
+                    <p class="card-text text-muted">
+                        No registration needed to view our public Alumni Directory. Browse and search alumni across all departments and graduating batches.
+                    </p>
+                    <a th:href="@{/alumni/directory}" class="btn btn-outline-info btn-sm rounded-pill">Explore Directory</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

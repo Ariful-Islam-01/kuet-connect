@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: header('Alumni Directory')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-people-fill text-primary me-2"></i>KUET Alumni Directory</h2>
+            <p class="text-muted mb-0">Search and discover KUET graduates worldwide</p>
+        </div>
+        <div sec:authorize="hasRole('ALUMNI')">
+            <a th:href="@{/alumni/profile/edit}" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil-square me-1"></i>Update My Profile</a>
+        </div>
+    </div>
+
+    <!-- Filter Form -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+        <form th:action="@{/alumni/directory}" method="get" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold text-muted">Keyword</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control" placeholder="Name, Role, Company...">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold text-muted">Department</label>
+                <select name="department" class="form-select">
+                    <option value="">All Departments</option>
+                    <option value="CSE" th:selected="${selectedDepartment == 'CSE'}">CSE</option>
+                    <option value="EEE" th:selected="${selectedDepartment == 'EEE'}">EEE</option>
+                    <option value="ME" th:selected="${selectedDepartment == 'ME'}">ME</option>
+                    <option value="CE" th:selected="${selectedDepartment == 'CE'}">CE</option>
+                    <option value="ECE" th:selected="${selectedDepartment == 'ECE'}">ECE</option>
+                    <option value="BME" th:selected="${selectedDepartment == 'BME'}">BME</option>
+                    <option value="MSE" th:selected="${selectedDepartment == 'MSE'}">MSE</option>
+                    <option value="IPE" th:selected="${selectedDepartment == 'IPE'}">IPE</option>
+                    <option value="TE" th:selected="${selectedDepartment == 'TE'}">TE</option>
+                    <option value="LE" th:selected="${selectedDepartment == 'LE'}">LE</option>
+                    <option value="URP" th:selected="${selectedDepartment == 'URP'}">URP</option>
+                    <option value="BECM" th:selected="${selectedDepartment == 'BECM'}">BECM</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold text-muted">Batch</label>
+                <input type="text" name="batch" th:value="${selectedBatch}" class="form-control" placeholder="e.g. 2k16">
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label small fw-semibold text-muted">Company</label>
+                <input type="text" name="company" th:value="${selectedCompany}" class="form-control" placeholder="e.g. Google">
+            </div>
+
+            <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+                <a th:href="@{/alumni/directory}" class="btn btn-outline-secondary">Reset</a>
+                <button type="submit" class="btn btn-kuet px-4"><i class="bi bi-funnel me-1"></i>Filter Directory</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Alumni Cards Grid -->
+    <div class="row g-4" th:if="${alumniList != null and !alumniList.empty}">
+        <div class="col-md-6 col-lg-4" th:each="alumni : ${alumniList}">
+            <div class="card h-100 border-0 shadow-sm rounded-4 hover-shadow position-relative">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center me-3" style="width: 52px; height: 52px; font-size: 1.4rem;">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title fw-bold mb-0" th:text="${alumni.user.fullName}">Alumni Name</h5>
+                            <span class="badge bg-primary me-1" th:text="${alumni.user.department}">CSE</span>
+                            <span class="badge bg-secondary" th:if="${alumni.batch != null}" th:text="'Batch ' + ${alumni.batch}">Batch 2k16</span>
+                            <span class="badge bg-success" th:if="${alumni.verified}"><i class="bi bi-patch-check-fill me-1"></i>Verified</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <p class="mb-1 text-dark fw-semibold" th:if="${alumni.currentDesignation != null}">
+                            <i class="bi bi-briefcase me-1 text-secondary"></i>
+                            <span th:text="${alumni.currentDesignation}">Senior Engineer</span>
+                        </p>
+                        <p class="mb-1 text-muted small" th:if="${alumni.currentCompany != null}">
+                            <i class="bi bi-building me-1"></i>
+                            <span th:text="${alumni.currentCompany}">Company Name</span>
+                        </p>
+                        <p class="mb-1 text-muted small" th:if="${alumni.location != null}">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            <span th:text="${alumni.location}">Location</span>
+                        </p>
+                        <p class="mb-1 text-muted small" th:if="${alumni.passingYear != null}">
+                            <i class="bi bi-calendar-event me-1"></i>
+                            <span th:text="'Graduated ' + ${alumni.passingYear}">Graduated 2020</span>
+                        </p>
+                    </div>
+
+                    <div class="pt-2 border-top d-flex justify-content-between align-items-center">
+                        <a th:href="@{/alumni/profile/view/{id}(id=${alumni.id})}" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                            View Profile
+                        </a>
+                        <div class="d-flex gap-2">
+                            <a th:if="${alumni.linkedinUrl != null and !alumni.linkedinUrl.empty}" th:href="${alumni.linkedinUrl}" target="_blank" class="text-primary fs-5"><i class="bi bi-linkedin"></i></a>
+                            <a th:if="${alumni.githubUrl != null and !alumni.githubUrl.empty}" th:href="${alumni.githubUrl}" target="_blank" class="text-dark fs-5"><i class="bi bi-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="card border-0 shadow-sm rounded-4 p-5 text-center mt-3" th:if="${alumniList == null or alumniList.empty}">
+        <i class="bi bi-people display-4 text-muted mb-3"></i>
+        <h4 class="fw-bold">No Alumni Found</h4>
+        <p class="text-muted">No alumni match the selected filters. Try broadening your search or resetting the filters.</p>
+        <div>
+            <a th:href="@{/alumni/directory}" class="btn btn-outline-secondary btn-sm">Clear Filters</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>
