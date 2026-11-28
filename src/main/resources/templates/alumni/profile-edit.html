@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header('Edit Alumni Profile')}"></head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fw-bold mb-0">Edit Alumni Profile</h3>
+                    <a th:href="@{/alumni/verify}" class="btn btn-outline-success btn-sm"><i class="bi bi-patch-check me-1"></i>Verification Status</a>
+                </div>
+                <p class="text-muted small mb-4">Keep your profile updated so students and peers can easily connect with you.</p>
+
+                <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-1"></i>Profile updated successfully!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <form th:action="@{/alumni/profile/edit}" th:object="${profileDto}" method="post">
+                    <h5 class="fw-bold text-primary mb-3">Academic Information</h5>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Degree</label>
+                            <input type="text" class="form-control" th:field="*{degree}" placeholder="e.g. B.Sc. in Computer Science and Engineering">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Batch</label>
+                            <input type="text" class="form-control" th:field="*{batch}" placeholder="e.g. 2k16">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Graduation Year</label>
+                            <input type="number" class="form-control" th:field="*{passingYear}" placeholder="2021">
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold text-primary mt-4 mb-3">Current Profession</h5>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Current Designation</label>
+                            <input type="text" class="form-control" th:field="*{currentDesignation}" placeholder="e.g. Senior Software Engineer">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Company / Organization</label>
+                            <input type="text" class="form-control" th:field="*{currentCompany}" placeholder="e.g. Google">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Industry</label>
+                            <input type="text" class="form-control" th:field="*{industry}" placeholder="e.g. Technology / Fintech">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Current City / Country</label>
+                            <input type="text" class="form-control" th:field="*{location}" placeholder="e.g. Dhaka, Bangladesh">
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold text-primary mt-4 mb-3">Social & Contact Links</h5>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">LinkedIn Profile URL</label>
+                            <input type="url" class="form-control" th:field="*{linkedinUrl}" placeholder="https://linkedin.com/in/username">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">GitHub Profile URL</label>
+                            <input type="url" class="form-control" th:field="*{githubUrl}" placeholder="https://github.com/username">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Phone Number</label>
+                            <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="+8801XXXXXXXXX">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Directory Privacy</label>
+                            <select class="form-select" th:field="*{privacyLevel}">
+                                <option value="PUBLIC">Public (Visible to All & Guests)</option>
+                                <option value="MEMBERS_ONLY">Members Only (KUET Students & Alumni)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Bio / Summary</label>
+                        <textarea class="form-control" rows="4" th:field="*{bio}" placeholder="Write a brief professional summary or advice for KUET juniors..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-kuet px-4 py-2 fw-semibold rounded-3">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>
